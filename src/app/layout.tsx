@@ -16,13 +16,13 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.wedodare.com"),
-  title: "프롬프트 아카이브 - WeDoDare",
+  title: "Prompt Archive - WeDoDare",
   description: "노션 데이터베이스 기반 개인용 프롬프트 저장소 및 파싱 관리 도구",
   alternates: {
     canonical: "/function/PromptArchive",
   },
   openGraph: {
-    title: "프롬프트 아카이브 - WeDoDare",
+    title: "Prompt Archive - WeDoDare",
     description: "노션 데이터베이스 기반 개인용 프롬프트 저장소 및 파싱 관리 도구",
     url: "https://www.wedodare.com/function/PromptArchive",
     siteName: "WeDoDare",
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "프롬프트 아카이브 - WeDoDare",
+    title: "Prompt Archive - WeDoDare",
     description: "노션 데이터베이스 기반 개인용 프롬프트 저장소 및 파싱 관리 도구",
   },
 };

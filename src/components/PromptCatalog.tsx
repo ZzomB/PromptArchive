@@ -71,21 +71,17 @@ export function PromptCatalog({ initialPrompts }: PromptCatalogProps) {
   return (
     <div className="w-full flex-grow mx-auto max-w-7xl px-4 py-8 flex flex-col gap-8">
       {/* Hero Section */}
-      <div className="text-center md:text-left flex flex-col gap-2">
-        <div className="flex items-center justify-center md:justify-start gap-2 text-primary font-bold text-sm tracking-wider uppercase">
-          <Sparkles className="w-4 h-4" />
-          <span>Notion CMS Powered Prompt Store</span>
-        </div>
+      <div className="text-center flex flex-col items-center gap-2">
         <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
-          프롬프트 아카이브
+          Prompt Archive
         </h1>
-        <p className="text-muted-foreground text-sm max-w-2xl">
+        <p className="text-muted-foreground text-sm max-w-2xl mx-auto">
           업무 효율을 극대화해 줄 검증된 프롬프트 모음입니다. 필요한 파라미터를 입력하고 완성본을 복사해 사용해 보세요.
         </p>
       </div>
 
       {/* Filter and Search controls */}
-      <div className="flex flex-col md:flex-row gap-4 justify-between items-stretch md:items-center bg-card/45 backdrop-blur-md p-4 rounded-xl border border-border/80">
+      <div className="flex flex-col md:flex-row gap-4 justify-center items-stretch md:items-center bg-card/45 backdrop-blur-md p-4 rounded-xl border border-border/80 max-w-4xl mx-auto w-full">
         
         {/* Search input */}
         <div className="relative flex-grow max-w-md">
@@ -100,7 +96,7 @@ export function PromptCatalog({ initialPrompts }: PromptCatalogProps) {
         </div>
 
         {/* Favorite toggle button */}
-        <div className="flex items-center gap-2 flex-shrink-0">
+        <div className="flex items-center gap-2 flex-shrink-0 justify-center">
           <button
             onClick={() => setShowOnlyFavorites(prev => !prev)}
             className={`flex items-center gap-2 text-sm font-semibold px-4 py-2 rounded-lg border cursor-pointer transition-all duration-300 ${
@@ -116,12 +112,12 @@ export function PromptCatalog({ initialPrompts }: PromptCatalogProps) {
       </div>
 
       {/* Horizontal Category selector */}
-      <div className="flex flex-wrap gap-2 items-center">
+      <div className="flex flex-wrap gap-2.5 items-center justify-center">
         {categories.map((category) => (
           <button
             key={category}
             onClick={() => setSelectedCategory(category)}
-            className={`px-4 py-1.5 rounded-full text-xs font-bold cursor-pointer transition-all duration-300 ${
+            className={`px-5 py-2 rounded-full text-sm font-bold cursor-pointer transition-all duration-300 ${
               selectedCategory === category
                 ? 'bg-primary text-primary-foreground shadow-md shadow-primary/20'
                 : 'bg-card/65 text-muted-foreground hover:text-foreground border border-border/60 hover:bg-muted/40'

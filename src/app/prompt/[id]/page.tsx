@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { getPromptById } from '@/lib/notion';
 import { PromptDetailModal } from '@/components/PromptDetailModal';
 import { notFound } from 'next/navigation';
@@ -6,6 +7,40 @@ import { ArrowLeft } from 'lucide-react';
 
 interface Props {
   params: Promise<{ id: string }>;
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { id } = await params;
+  const prompt = await getPromptById(id);
+
+  if (!prompt) {
+    return {
+      title: "Prompt Not Found | Prompt Archive",
+    };
+  }
+
+  const title = `${prompt.title} | Prompt Archive - WeDoDare`;
+  const description = prompt.description || `${prompt.title} 프롬프트 상세 정보 및 인터랙티브 파싱 도구`;
+  const path = `/function/PromptArchive/prompt/${id}`;
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: path,
+    },
+    openGraph: {
+      title,
+      description,
+      url: `https://www.wedodare.com${path}`,
+      type: "article",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
+  };
 }
 
 export default async function DirectPromptPage({ params }: Props) {
@@ -17,7 +52,7 @@ export default async function DirectPromptPage({ params }: Props) {
   }
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-4 py-8 flex flex-col gap-6">
+    <div className="w-full max-w-5xl mx-auto px-4 py-8 flex flex-col gap-6">
       {/* Back to list button */}
       <Link
         href="/"
