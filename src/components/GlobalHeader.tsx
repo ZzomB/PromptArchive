@@ -19,15 +19,32 @@ export function GlobalHeader() {
   const isPromptArchiveActive = localPath === '/' || localPath.startsWith('/prompt');
 
   const navItems = [
-    { label: '홈', href: '/', external: true },
-    { label: '블로그', href: '/blog', external: true },
+    { label: '홈', href: '/' },
+    { label: '블로그', href: '/blog' },
   ];
 
   const functionItems = [
-    { label: '구글드라이브 썸네일 변환 (G2Thumbnail)', href: '/function/G2Thumbnail', external: true },
-    { label: '이미지 랜덤 제시 (ImageRandomPresentation)', href: '/function/ImageRandomPresentation', external: true },
-    { label: '프롬프트 저장소 (PromptArchive)', href: '/', external: false }, // Internal home
+    { label: '구글드라이브 썸네일 변환 (G2Thumbnail)', href: '/function/G2Thumbnail' },
+    { label: '이미지 랜덤 제시 (ImageRandomPresentation)', href: '/function/ImageRandomPresentation' },
+    { label: '프롬프트 저장소 (PromptArchive)', href: '/function/PromptArchive' },
   ];
+
+  // Helper to render links correctly considering basePath
+  const renderLink = (item: { label: string; href: string }, className: string, onClick?: () => void) => {
+    if (item.href.startsWith('/function/PromptArchive')) {
+      const internalHref = item.href.replace('/function/PromptArchive', '') || '/';
+      return (
+        <Link key={item.href} href={internalHref} className={className} onClick={onClick}>
+          {item.label}
+        </Link>
+      );
+    }
+    return (
+      <a key={item.href} href={item.href} className={className} onClick={onClick}>
+        {item.label}
+      </a>
+    );
+  };
 
   return (
     <header className="relative sticky top-0 z-50 w-full h-14 border-b border-border bg-background/80 backdrop-blur-md select-none">
@@ -51,15 +68,13 @@ export function GlobalHeader() {
 
         {/* 데스크톱 내비게이션 메뉴 */}
         <nav className="hidden md:flex items-center gap-6 h-full">
-          {navItems.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              className="text-sm font-semibold transition-all hover:text-primary text-muted-foreground"
-            >
-              {item.label}
-            </a>
-          ))}
+          {navItems.map((item) => {
+            const isActive = localPath === item.href || (item.href !== '/' && localPath.startsWith(item.href));
+            const activeClass = `text-sm font-semibold transition-all hover:text-primary ${
+              isActive ? 'text-primary' : 'text-muted-foreground'
+            }`;
+            return renderLink(item, activeClass);
+          })}
           
           {/* 기능 드롭다운 (Nike-Style full-width menu) */}
           <div className="group h-full flex items-center">
@@ -77,7 +92,7 @@ export function GlobalHeader() {
 
             {/* 드롭다운 콘텐츠 영역 */}
             <div className="absolute top-full left-0 w-full bg-background border-b border-border shadow-2xl opacity-0 translate-y-[-8px] pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-all duration-300 ease-out z-40">
-              <div className="mx-auto max-w-3xl px-8 py-10 grid grid-cols-2 gap-8">
+              <div className="mx-auto max-w-5xl px-8 py-10 grid grid-cols-3 gap-8">
                 
                 {/* Column 1: 웹 기능 */}
                 <div className="space-y-4">
@@ -86,31 +101,16 @@ export function GlobalHeader() {
                   </h4>
                   <ul className="space-y-3">
                     {functionItems.map((subItem) => {
-                      if (subItem.external) {
-                        return (
-                          <li key={subItem.href}>
-                            <a
-                              href={subItem.href}
-                              className="text-sm font-semibold transition-all hover:text-primary block text-foreground"
-                            >
-                              {subItem.label}
-                            </a>
-                          </li>
-                        );
-                      } else {
-                        return (
-                          <li key={subItem.href}>
-                            <Link
-                              href={subItem.href}
-                              className={`text-sm font-semibold transition-all hover:text-primary block ${
-                                isPromptArchiveActive ? 'text-primary' : 'text-foreground'
-                              }`}
-                            >
-                              {subItem.label}
-                            </Link>
-                          </li>
-                        );
-                      }
+                      const isSubActive = localPath.startsWith('/prompt') || 
+                        (subItem.href === '/function/PromptArchive' && (localPath === '/' || localPath === ''));
+                      const subActiveClass = `text-sm font-semibold transition-all hover:text-primary block ${
+                        isSubActive ? 'text-primary' : 'text-foreground'
+                      }`;
+                      return (
+                        <li key={subItem.href}>
+                          {renderLink(subItem, subActiveClass)}
+                        </li>
+                      );
                     })}
                   </ul>
                 </div>
@@ -121,6 +121,14 @@ export function GlobalHeader() {
                     플랫폼 (Platform)
                   </h4>
                   <ul className="space-y-3">
+                    <li>
+                      <a
+                        href="/"
+                        className="text-sm font-semibold transition-all hover:text-primary block text-foreground"
+                      >
+                        WeDoDare 홈
+                      </a>
+                    </li>
                     <li>
                       <a
                         href="/blog"
@@ -137,6 +145,23 @@ export function GlobalHeader() {
                         className="text-sm font-semibold transition-all hover:text-primary block text-foreground"
                       >
                         GitHub 저장소
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+
+                {/* Column 3: 피드 (Feed) */}
+                <div className="space-y-4">
+                  <h4 className="text-xs font-extrabold text-muted-foreground uppercase tracking-widest">
+                    피드 (Feed)
+                  </h4>
+                  <ul className="space-y-3">
+                    <li>
+                      <a
+                        href="/feed/OpinionOnAP"
+                        className="text-sm font-semibold transition-all hover:text-primary block text-foreground"
+                      >
+                        OpinionOnAP
                       </a>
                     </li>
                   </ul>
@@ -170,16 +195,13 @@ export function GlobalHeader() {
       {mobileMenuOpen && (
         <div className="md:hidden fixed inset-0 top-14 bg-background z-40 border-t border-border flex flex-col p-4 animate-in fade-in slide-in-from-top-4 duration-200">
           <nav className="flex flex-col gap-4">
-            {navItems.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className="text-base font-semibold py-2 border-b border-border/50 transition-colors text-foreground"
-              >
-                {item.label}
-              </a>
-            ))}
+            {navItems.map((item) => {
+              const isActive = localPath === item.href || (item.href !== '/' && localPath.startsWith(item.href));
+              const mobileClass = `text-base font-semibold py-2 border-b border-border/50 transition-colors ${
+                isActive ? 'text-primary' : 'text-foreground'
+              }`;
+              return renderLink(item, mobileClass, () => setMobileMenuOpen(false));
+            })}
 
             {/* 모바일 기능 드롭다운 (아코디언) */}
             <div className="flex flex-col">
@@ -196,34 +218,36 @@ export function GlobalHeader() {
                 <div className="pl-4 py-2 flex flex-col gap-2 bg-muted/30 rounded-lg mt-2">
                   <div className="text-xs font-bold text-muted-foreground uppercase tracking-wider mt-1 px-1">웹 기능</div>
                   {functionItems.map((subItem) => {
-                    if (subItem.external) {
-                      return (
-                        <a
-                          key={subItem.href}
-                          href={subItem.href}
-                          onClick={() => setMobileMenuOpen(false)}
-                          className="text-sm font-medium py-1 transition-colors pl-2 text-muted-foreground hover:text-primary"
-                        >
-                          {subItem.label}
-                        </a>
-                      );
-                    } else {
-                      return (
-                        <Link
-                          key={subItem.href}
-                          href={subItem.href}
-                          onClick={() => setMobileMenuOpen(false)}
-                          className={`text-sm font-medium py-1 transition-colors pl-2 ${
-                            isPromptArchiveActive ? 'text-primary' : 'text-muted-foreground hover:text-primary'
-                          }`}
-                        >
-                          {subItem.label}
-                        </Link>
-                      );
-                    }
+                    const isSubActive = localPath.startsWith('/prompt') || 
+                      (subItem.href === '/function/PromptArchive' && (localPath === '/' || localPath === ''));
+                    const subMobileClass = `text-sm font-medium py-1 transition-colors pl-2 ${
+                      isSubActive ? 'text-primary' : 'text-muted-foreground'
+                    }`;
+                    return renderLink(subItem, subMobileClass, () => setMobileMenuOpen(false));
                   })}
                 </div>
               )}
+            </div>
+
+            {/* 모바일 플랫폼 홈 바로가기 */}
+            <a
+              href="/"
+              onClick={() => setMobileMenuOpen(false)}
+              className="text-base font-semibold py-2 border-b border-border/50 transition-colors text-foreground"
+            >
+              WeDoDare 홈
+            </a>
+
+            {/* 모바일 피드 섹션 */}
+            <div className="flex flex-col gap-2 pt-2">
+              <div className="text-xs font-bold text-muted-foreground uppercase tracking-widest px-1">피드 (Feed)</div>
+              <a
+                href="/feed/OpinionOnAP"
+                onClick={() => setMobileMenuOpen(false)}
+                className="text-sm font-semibold py-1 transition-colors pl-2 text-foreground/90"
+              >
+                OpinionOnAP
+              </a>
             </div>
           </nav>
         </div>
