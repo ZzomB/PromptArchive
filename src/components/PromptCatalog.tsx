@@ -216,8 +216,77 @@ export function PromptCatalog({ initialPrompts }: PromptCatalogProps) {
               </div>
             </Link>
           ))}
-        </div>
+                </div>
       )}
+
+      {/* Technical Guide Section */}
+      <div className="w-full max-w-4xl mx-auto mt-16 border-t border-border/40 pt-12 pb-8 text-left space-y-8">
+        <div className="space-y-3">
+          <h3 className="text-2xl font-bold tracking-tight text-foreground">
+            System Role Architecture and Structured Prompt Archiving (Technical Guide)
+          </h3>
+          <p className="text-xs font-semibold uppercase tracking-wider text-primary">
+            Prompt Engineering Methodology &amp; Hallucination Control
+          </p>
+        </div>
+
+        <div className="space-y-6 text-sm text-muted-foreground leading-relaxed">
+          <div className="space-y-2">
+            <h4 className="font-bold text-base text-foreground">
+              1. Background &amp; Design Intent: Organizing AI Prompt Assets
+            </h4>
+            <p>
+              With the rise of Large Language Models (LLMs) like GPT, Gemini, and Claude, prompt engineering has become a critical skill for maximizing AI efficiency. However, high-quality prompts are often scattered in chat histories or raw text files, making them hard to share and reuse. Re-typing complex instructions repeatedly is also highly inefficient. PromptArchive organizes these valuable engineering assets into a clean, searchable catalog. With tag-based filtering (such as coding, translation, copywriting), users can locate and copy the perfect system prompt with a single click, boosting daily productivity.
+            </p>
+          </div>
+
+          <div className="space-y-2">
+            <h4 className="font-bold text-base text-foreground">
+              2. System Role Engineering and Hallucination Mitigation
+            </h4>
+            <p>
+              The prompts archived in this catalog focus on defining the AI&apos;s system persona. Without clear constraints, rules, and context, LLMs are prone to &quot;hallucinations&quot;—generating inaccurate or fabricated information. By adopting Zero-Shot and Few-Shot templating structures, these prompts define the exact target output formats (e.g., JSON, Markdown) and instruction boundaries, ensuring consistent, high-quality, and structured responses from LLMs.
+            </p>
+          </div>
+
+          <div className="space-y-2">
+            <h4 className="font-bold text-base text-foreground">
+              3. Practical Prompt Workflows Across Industries
+            </h4>
+            <p>
+              The archived prompt library is designed to fit seamlessly into daily engineering and planning workflows:
+            </p>
+            <ul className="list-disc pl-5 space-y-1.5">
+              <li>
+                <strong>Software Development</strong>: System roles that instruct AI to analyze code structures, apply refactoring principles, and output clean code adhering to strict language styling guides.
+              </li>
+              <li>
+                <strong>Contextual Translation</strong>: Roles that go beyond literal translation to adapt tone, business etiquette, and cultural nuances for target audiences.
+              </li>
+              <li>
+                <strong>Content Creation &amp; Marketing</strong>: Structured frameworks that outline SEO keywords, readability rules, and branding voice to draft high-impact copy.
+              </li>
+            </ul>
+          </div>
+
+          <div className="space-y-2">
+            <h4 className="font-bold text-base text-foreground">
+              4. Cache Behavior &amp; Contribution Guidelines (FAQ)
+            </h4>
+            <ul className="space-y-3">
+              <li className="border-l-2 border-primary/30 pl-3">
+                <p className="font-bold text-foreground">Q: Why are updates to the Notion database not appearing on the website immediately?</p>
+                <p className="mt-1">A: To optimize performance and avoid hitting Notion API query limits, PromptArchive uses Next.js static caching. The site revalidates data in the background at set intervals, meaning edits will sync automatically after a short propagation window.</p>
+              </li>
+              <li className="border-l-2 border-primary/30 pl-3">
+                <p className="font-bold text-foreground">Q: How can I contribute my own custom prompts to this catalog?</p>
+                <p className="mt-1">A: You can submit prompts in Markdown format via a GitHub Pull Request. After code review and verification, the new prompt will be added to the live catalog under the appropriate tags.</p>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
     </div>
   );
 }
