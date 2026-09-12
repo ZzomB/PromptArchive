@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-html-link-for-pages */
 'use client';
 
 import Link from 'next/link';
@@ -16,7 +17,6 @@ export function GlobalHeader() {
   // Active status for the platform
   // Since we are in the PromptArchive project, "기능" dropdown should be active.
   const isFunctionActive = true;
-  const isPromptArchiveActive = localPath === '/' || localPath.startsWith('/prompt');
 
   const navItems = [
     { label: '홈', href: '/' },

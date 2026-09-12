@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
-import { Search, Star, Copy, Share2, Sparkles, CheckCircle2 } from 'lucide-react';
+import { Search, Star, Copy, Share2, CheckCircle2 } from 'lucide-react';
 import type { Prompt } from '@/lib/notion';
 
 interface PromptCatalogProps {
